@@ -21,6 +21,7 @@
       "css": ["src/css/blocker.css"],
       "matches": [
         "*://*.youtube.com/watch?*",
+        "*://*.youtube.com/shorts*",
         "*://*.facebook.com/*"
       ]
     }

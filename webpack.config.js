@@ -11,7 +11,8 @@ module.exports = function(_env, argv) {
     mode: 'production',
     devtool: 'cheap-module-source-map',
     entry : {
-      'src/pages/options/index.build' : './src/pages/options/index.js' 
+      'src/pages/options/index.build' : './src/pages/options/index.js',
+      'src/pages/options/popup.build' : './src/pages/options/popup.js',
     },
     output: {
       path: path.resolve(__dirname, '.'),

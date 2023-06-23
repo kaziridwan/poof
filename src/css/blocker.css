@@ -5,12 +5,47 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgb(121, 103, 103);
-  opacity: .9;
-  backdrop-filter: blur(8px);
-  transition: opacity 2s ;
+  background-color: rgba(128, 128, 128, 0.5);
+  backdrop-filter: blur(1px);
+  transition: backdrop-filter 5s ease-in ;
+}
+
+.blurMore {
+  backdrop-filter: blur(20px);
+  transition: backdrop-filter 5s ease-in ;
 }
 
 .hide {
   display: none;
+}
+
+.unpauseBtn {
+  display: block;
+  position: absolute;
+  width: 160px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 8px 8px 24px rgba(0, 0, 0, 0.5), -8px -8px 24px rgba(255, 255, 255, 0.2), inset -20px -20px 20px rgba(255, 255, 255, 0.09), inset 20px 20px 20px rgba(46, 46, 46, 0.1);
+  border: none;
+  background: #80808000;
+  cursor: pointer;
+  line-height: 150%;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: monospace;
+  transition: background 3s ease, color 1s ease, box-shadow .7s ease;
+}
+
+.unpauseBtn:hover {
+  color: rgba(0, 0, 0, 0.9);
+  /* background: #FF5F15; */
+  background: rgba(255, 95, 21, 0.6);
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.5), -12px -12px 24px rgba(255, 255, 255, 0.2), inset -20px -20px 20px rgba(255, 255, 255, 0.1), inset 20px 20px 20px rgba(46, 46, 46, 0.1);
+  transition: background 3s ease, color 1s ease, box-shadow .7s ease;
+}
+
+.unpauseBtn:focus, .unpauseBtn:active {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 95, 21, 0.1);
+  box-shadow: 8px 8px 24px rgba(0, 0, 0, 0.5), -8px -8px 24px rgba(255, 255, 255, 0.2), inset -24px -24px 20px rgba(255, 255, 255, 0.15), inset 24px 24px 20px rgba(46, 46, 46, 0.2);
+  transition: background 2s ease, color 1s ease, box-shadow .5s ease;
 }
