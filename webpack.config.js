@@ -1,14 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin"); // added to remove buildmap and license files
 
 const isProduction = false;
 
 module.exports = function(_env, argv) {
-  const isProduction = argv.mode === "production";
+  // const isProduction = argv.mode === "production";
   const isDevelopment = !isProduction;
 
   return  [{
-    mode: 'production',
+    // mode: 'production',
+    mode: 'development',
     devtool: 'cheap-module-source-map',
     entry : {
       'src/pages/options/index.build' : './src/pages/options/index.js',
@@ -36,7 +38,19 @@ module.exports = function(_env, argv) {
     },
     resolve: {
       extensions: [".js", ".jsx"]
-    }
-      
+    },
+    optimization: {
+      minimize: false,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            format: {
+              comments: false,
+            },
+          },
+          extractComments: false,
+        }),
+      ],
+    },
   }]
 }

@@ -42,8 +42,9 @@ const min = (count) => (count*60000);
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-const getButtonContentRandomly = () => {
-  return buttonTexts[randomIntFromInterval(0, buttonTexts.length - 1)]+" for "+initialInterval+" minutes"
+const getButtonContentRandomly = (durationInMinutes = '~~~', customButtonText = null) => {
+  if(customButtonText) return customButtonText;
+  return buttonTexts[randomIntFromInterval(0, buttonTexts.length - 1)]+" for "+durationInMinutes+" minutes"
 }
 const typewriterEffect = (targetElement, text, textSpeed) => {
   let i = 0;
@@ -63,32 +64,60 @@ const typewriterEffect = (targetElement, text, textSpeed) => {
   typeWriter();
 }
 
-const blockingModal = document.createElement("div");
-
-const unpauseBtn = document.createElement('button')
-unpauseBtn.classList.add("unpauseBtn");
-unpauseBtn.style.top = `calc(${randomIntFromInterval(10, 100)}% - 160px)`;
-unpauseBtn.style.left = `calc(${randomIntFromInterval(10, 100)}% - 200px)`;
-
-unpauseBtn.innerText = '~~~';
-unpauseBtn.onclick = () => {
-  initialInterval = initialInterval/1.6;
+const showBlockerOverlay = (customBreakInterval = null, customButtonText = null) => {
+  let breakInterval = customBreakInterval ? customBreakInterval : initialInterval;
+  const blockingModal = document.createElement("div");
+  
+  const unpauseBtn = document.createElement('button')
+  unpauseBtn.classList.add("unpauseBtn");
   unpauseBtn.style.top = `calc(${randomIntFromInterval(10, 100)}% - 160px)`;
   unpauseBtn.style.left = `calc(${randomIntFromInterval(10, 100)}% - 200px)`;
-  blockingModal.classList.add('hide');
+  
+  unpauseBtn.innerText = '~~~';
+  unpauseBtn.onclick = () => {
+    breakInterval = breakInterval/1.6;
+    unpauseBtn.style.top = `calc(${randomIntFromInterval(10, 100)}% - 160px)`;
+    unpauseBtn.style.left = `calc(${randomIntFromInterval(10, 100)}% - 200px)`;
+    blockingModal.classList.add('hide');
+    setTimeout(() => {
+      // unpauseBtn.innerText = getButtonContentRandomly();
+      typewriterEffect(unpauseBtn, getButtonContentRandomly(breakInterval, customButtonText), 100);
+      blockingModal.classList.remove('hide');
+    }, min(breakInterval))
+  }
+  
   setTimeout(() => {
-    // unpauseBtn.innerText = getButtonContentRandomly();
-    typewriterEffect(unpauseBtn, getButtonContentRandomly(), 100);
-    blockingModal.classList.remove('hide');
-  }, min(initialInterval))
+    blockingModal.appendChild(unpauseBtn)
+    blockingModal.classList.add("blockmodal");
+    document.body.appendChild(blockingModal);
+    typewriterEffect(unpauseBtn, getButtonContentRandomly(breakInterval, customButtonText), 75);
+    setTimeout(()=> blockingModal.classList.add("blurMore"), 2000)
+  }, min(breakInterval))
 }
 
-setTimeout(() => {
-  blockingModal.appendChild(unpauseBtn)
-  blockingModal.classList.add("blockmodal");
-  document.body.appendChild(blockingModal);
-  typewriterEffect(unpauseBtn, getButtonContentRandomly(), 75);
-  setTimeout(()=> blockingModal.classList.add("blurMore"), 2000)
-}, min(initialInterval))
+const observeOverlayDeletion = () => {
+  const x = new MutationObserver(function (e) {
+    if (e[0].removedNodes && e[0].removedNodes.length > 0){
+      const firstNodeClassName = e[0].removedNodes[0].classList.value;
+      if(firstNodeClassName === 'blockmodal blurMore') {
+        showBlockerOverlay(10, "Nice try! if you really need to have some time to watch this, please keep in mind that time is valuable. Also you need to work on this extension, ML, LeetCode and IELTS");
+      }
+    }
+  });
+  x.observe(document.getElementsByTagName('BODY')[0], { childList: true });
+}
+
+const init = async () => {
+  const localStore = await chrome.storage.local.get(["blocks"]);
+  console.log('log entries on init', localStore.blocks);
+  // get config
+  // match config / get applicable entry
+  // start recording entry
+  // apply the rule
+  // change the rule ?@
+}
 
 
+showBlockerOverlay();
+observeOverlayDeletion();
+init();

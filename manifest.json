@@ -18,7 +18,7 @@
     },
     {
       "js": ["src/content_scripts/blocker.js"],
-      "css": ["src/css/blocker.css"],
+      "css": ["src/css/blocker.css", "build/css/main.css"],
       "matches": [
         "*://*.youtube.com/watch?*",
         "*://*.youtube.com/shorts*",
@@ -37,5 +37,5 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
   },
-  "permissions": ["activeTab", "scripting"]
+  "permissions": ["activeTab", "scripting", "storage", "unlimitedStorage"]
 }
