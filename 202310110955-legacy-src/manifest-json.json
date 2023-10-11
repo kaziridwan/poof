@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Krasty",
+  "version": "0.1",
+  "description": "Block sites, defeat procrastination, be productive.",
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "js": ["src/content_scripts/blocker.js"],
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.youtube.com/watch?*",
+        "*://*.youtube.com/shorts*",
+        "*://*.facebook.com/*"
+      ],
+      "type": "module"
+    }
+  ],
+  "background": {
+    "service_worker": "src/service_worker.build.js",
+    "type": "module"
+  },
+  "options_page": "src/pages/options/index.html",
+  "action": {
+    "default_popup": "src/pages/options/popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "permissions": ["activeTab", "scripting", "storage", "unlimitedStorage", "tabs"],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["src/*"]
+  }]
+}
