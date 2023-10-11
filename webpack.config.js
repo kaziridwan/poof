@@ -11,10 +11,11 @@ module.exports = function(_env, argv) {
   return  [{
     mode: isProduction ? 'production' : 'development',
     // mode: 'development',
-    devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',// need this for bypassing content security policy on dev
     entry : {
       'src/pages/options/index.build' : './src/pages/options/index.js',
       'src/pages/options/popup.build' : './src/pages/options/popup.js',
+      'src/content_scripts/blocker.build' : './src/content_scripts/blocker.js',
     },
     output: {
       path: path.resolve(__dirname, '.'),

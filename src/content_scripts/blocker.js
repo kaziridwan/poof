@@ -1,5 +1,5 @@
 import { getCurrentConfig } from "./lib/config";
-// console.log('in the blocked pages')
+console.log('in the blocked pages')
 const buttonTexts = [
   "Keep myself distracted",
   "Pause chasing goals",
@@ -125,6 +125,8 @@ const init = async () => {
 }
 
 
-showBlockerOverlay();
-observeOverlayDeletion();
-// init();
+export function main() {
+  showBlockerOverlay();
+  observeOverlayDeletion();
+  init();
+}

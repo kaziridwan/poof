@@ -11,14 +11,9 @@
   },
   "content_scripts": [
     {
-      "js": ["src/content_scripts/index.js"],
+      "js": ["src/content_scripts/blocker.build.js"],
       "matches": [
-        "*://*/*"
-      ]
-    },
-    {
-      "js": ["src/content_scripts/blocker.js"],
-      "matches": [
+        "*://*.youtube.com/*",
         "*://*.youtube.com/watch?*",
         "*://*.youtube.com/shorts*",
         "*://*.facebook.com/*"
@@ -41,5 +36,9 @@
   "host_permissions": [
     "http://*/*",
     "https://*/*"
-  ]
+  ],
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["src/*"]
+  }]
 }
