@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "js": ["src/content_scripts/blocker.build.js"],
+      "js": ["src/content_scripts/blocker.js"],
       "matches": [
         "*://*.youtube.com/*",
         "*://*.youtube.com/watch?*",
@@ -22,7 +22,7 @@
     }
   ],
   "background": {
-    "service_worker": "src/service_worker.js",
+    "service_worker": "src/service_worker.build.js",
     "type": "module"
   },
   "options_page": "src/pages/options/index.html",

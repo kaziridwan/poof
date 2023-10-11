@@ -3089,115 +3089,74 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!****************************************!*\
-  !*** ./src/content_scripts/blocker.js ***!
-  \****************************************/
+/*!*******************************!*\
+  !*** ./src/service_worker.js ***!
+  \*******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "main": () => (/* binding */ main)
-/* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _lib_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/config */ "./src/content_scripts/lib/config.js");
+/* harmony import */ var _content_scripts_lib_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./content_scripts/lib/config */ "./src/content_scripts/lib/config.js");
 
 
 
-console.log('in the blocked pages');
-var buttonTexts = ["Keep myself distracted", "Pause chasing goals", "Be Distracted", "Waste time on distractions", "Engage in unproductive diversions", "Squander valuable time on unnecessary distractions", "Indulge in time-wasting activities", "Get sidetracked by frivolous pursuits", "Fritter away precious moments on unimportant distractions", "Dilly-dally with irrelevant diversions", "Allow oneself to be consumed by idle and fruitless pastimes", "Fall into the trap of spending time on meaningless distractions", "Succumb to the allure of time-wasting indulgences", "Lose oneself in unproductive and futile distractions", "Waste time on pointless things", "Spend time on useless distractions", "Get caught up in unproductive activities", "Distract yourself with things that don't matter", "Engage in time-wasting behaviors", "Lose valuable time on irrelevant stuff", "Procrastinate with unimportant tasks", "Let distractions steal your time", "Idle away hours on meaningless things", "Fill your day with pointless diversions", "Squander time on futilidades (Portuguese)", "Perder el tiempo en distracciones (Spanish)", "Gubba tid på onödiga ting (Swedish)", "Gastar tempo em distrações (Portuguese)", "Verspillen tijd aan afleidingen (Dutch)", "Passer du temps sur des futilités (French)", "Sprecare tempo su distrazioni (Italian)", "Verteilen Zeit auf Ablenkungen (German)", "Tracourir du temps sur des distractions inutiles (Haitian Creole)", "Malograr tiempo en distracciones (Spanish)"];
-var isBlockEnabled = true;
-var initialInterval = .12;
-var min = function min(count) {
-  return count * 60000;
-};
-function randomIntFromInterval(min, max) {
-  // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-var getButtonContentRandomly = function getButtonContentRandomly() {
-  var durationInMinutes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '~~~';
-  var customButtonText = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  if (customButtonText) return customButtonText;
-  return buttonTexts[randomIntFromInterval(0, buttonTexts.length - 1)] + " for " + durationInMinutes + " minutes";
-};
-var typewriterEffect = function typewriterEffect(targetElement, text, textSpeed) {
-  var i = 0;
-  var renderedText = '';
-  var typeWriter = function typeWriter() {
-    if (i < text.length) {
-      renderedText += text.charAt(i);
-      if (i === text.length - 1) {
-        targetElement.innerText = renderedText;
-      } else {
-        targetElement.innerText = renderedText + '|';
-      }
-      i++;
-      setTimeout(typeWriter, textSpeed);
-    }
-  };
-  typeWriter();
-};
-var showBlockerOverlay = function showBlockerOverlay() {
-  var customBreakInterval = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var customButtonText = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var breakInterval = customBreakInterval ? customBreakInterval : initialInterval;
-  var blockingModal = document.createElement("div");
-  var unpauseBtn = document.createElement('button');
-  unpauseBtn.classList.add("unpauseBtn");
-  unpauseBtn.style.top = "calc(".concat(randomIntFromInterval(10, 100), "% - 160px)");
-  unpauseBtn.style.left = "calc(".concat(randomIntFromInterval(10, 100), "% - 200px)");
-  unpauseBtn.innerText = '~~~';
-  unpauseBtn.onclick = function () {
-    breakInterval = breakInterval / 1.6;
-    unpauseBtn.style.top = "calc(".concat(randomIntFromInterval(10, 100), "% - 160px)");
-    unpauseBtn.style.left = "calc(".concat(randomIntFromInterval(10, 100), "% - 200px)");
-    blockingModal.classList.add('hide');
-    setTimeout(function () {
-      // unpauseBtn.innerText = getButtonContentRandomly();
-      typewriterEffect(unpauseBtn, getButtonContentRandomly(breakInterval, customButtonText), 100);
-      blockingModal.classList.remove('hide');
-    }, min(breakInterval));
-  };
-  setTimeout(function () {
-    blockingModal.appendChild(unpauseBtn);
-    blockingModal.classList.add("blockmodal");
-    document.body.appendChild(blockingModal);
-    typewriterEffect(unpauseBtn, getButtonContentRandomly(breakInterval, customButtonText), 75);
-    setTimeout(function () {
-      return blockingModal.classList.add("blurMore");
-    }, 2000);
-  }, min(breakInterval));
-};
-var observeOverlayDeletion = function observeOverlayDeletion() {
-  var x = new MutationObserver(function (e) {
-    if (e[0].removedNodes && e[0].removedNodes.length > 0) {
-      var firstNodeClassName = e[0].removedNodes[0].classList.value;
-      if (firstNodeClassName === 'blockmodal blurMore') {
-        showBlockerOverlay(10, "Nice try! if you really need to have some time to watch this, please keep in mind that time is valuable. Also you need to work on this extension, ML, LeetCode and IELTS");
-      }
-    }
-  });
-  x.observe(document.getElementsByTagName('BODY')[0], {
-    childList: true
-  });
-};
-var init = /*#__PURE__*/function () {
-  var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee() {
-    var localStore, currentConfig;
+var extensions = 'https://developer.chrome.com/docs/extensions';
+var webstore = 'https://developer.chrome.com/docs/webstore';
+chrome.action.onClicked.addListener( /*#__PURE__*/function () {
+  var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(tab) {
+    var prevState, nextState;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          console.log('log entries on init before async');
+          if (!(tab.url.startsWith(extensions) || tab.url.startsWith(webstore))) {
+            _context.next = 7;
+            break;
+          }
           _context.next = 3;
+          return chrome.action.getBadgeText({
+            tabId: tab.id
+          });
+        case 3:
+          prevState = _context.sent;
+          // Next state will always be the opposite
+          nextState = prevState === 'ON' ? 'OFF' : 'ON'; // Set the action badge to the next state
+          _context.next = 7;
+          return chrome.action.setBadgeText({
+            tabId: tab.id,
+            text: nextState
+          });
+        case 7:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee);
+  }));
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+}());
+
+// record sessions
+
+// --- main service
+
+var init = /*#__PURE__*/function () {
+  var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2() {
+    var localStore, currentConfig;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          console.log('log entries on init before async');
+          _context2.next = 3;
           return chrome.storage.local.get(["blocks"]);
         case 3:
-          localStore = _context.sent;
+          localStore = _context2.sent;
           console.log('log entries on init', localStore.blocks);
           // get config
-          _context.next = 7;
-          return (0,_lib_config__WEBPACK_IMPORTED_MODULE_2__.getCurrentConfig)();
+          _context2.next = 7;
+          return (0,_content_scripts_lib_config__WEBPACK_IMPORTED_MODULE_2__.getCurrentConfig)();
         case 7:
-          currentConfig = _context.sent;
+          currentConfig = _context2.sent;
           // match config / get applicable entry
           // start recording entry
           // apply the rule
@@ -3208,21 +3167,17 @@ var init = /*#__PURE__*/function () {
           // change the rule @?
         case 10:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
-    }, _callee);
+    }, _callee2);
   }));
   return function init() {
-    return _ref.apply(this, arguments);
+    return _ref2.apply(this, arguments);
   };
 }();
-function main() {
-  showBlockerOverlay();
-  observeOverlayDeletion();
-  init();
-}
+init();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=blocker.build.js.map
+//# sourceMappingURL=service_worker.build.js.map

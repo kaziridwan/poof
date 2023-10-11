@@ -1,3 +1,5 @@
+import { getCurrentConfig } from "./content_scripts/lib/config";
+
 const extensions = 'https://developer.chrome.com/docs/extensions'
 const webstore = 'https://developer.chrome.com/docs/webstore'
 
@@ -17,3 +19,25 @@ chrome.action.onClicked.addListener(async (tab) => {
 })
 
 // record sessions
+
+
+// --- main service
+
+const init = async () => {
+  console.log('log entries on init before async');
+  const localStore = await chrome.storage.local.get(["blocks"]);
+  console.log('log entries on init', localStore.blocks);
+  // get config
+  const currentConfig = await getCurrentConfig();
+  // match config / get applicable entry
+  // start recording entry
+  // apply the rule
+  console.log('krasry logggg ', currentConfig)
+  if(currentConfig && currentConfig?.length > 0) {
+    console.log('krasry logggg ', currentConfig)
+  }
+  // change the rule @?
+}
+
+init();
+

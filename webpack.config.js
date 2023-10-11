@@ -15,7 +15,7 @@ module.exports = function(_env, argv) {
     entry : {
       'src/pages/options/index.build' : './src/pages/options/index.js',
       'src/pages/options/popup.build' : './src/pages/options/popup.js',
-      'src/content_scripts/blocker.build' : './src/content_scripts/blocker.js',
+      'src/service_worker.build' : './src/service_worker.js',
     },
     output: {
       path: path.resolve(__dirname, '.'),

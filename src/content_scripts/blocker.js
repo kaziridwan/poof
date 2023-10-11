@@ -1,4 +1,4 @@
-import { getCurrentConfig } from "./lib/config";
+// import { getCurrentConfig } from "./lib/config";
 console.log('in the blocked pages')
 const buttonTexts = [
   "Keep myself distracted",
@@ -124,9 +124,9 @@ const init = async () => {
   // change the rule @?
 }
 
+showBlockerOverlay();
 
 export function main() {
-  showBlockerOverlay();
   observeOverlayDeletion();
   init();
 }
