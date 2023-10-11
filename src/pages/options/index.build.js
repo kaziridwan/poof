@@ -34438,8 +34438,9 @@ function MyApp() {
             return chrome.storage.local.get(["blocks"]);
           case 2:
             localStore = _context2.sent;
-            console.log('log entries', localStore.blocks);
-          case 4:
+            console.log('log blocks', localStore.blocks);
+            console.log('log sessions', localStore.sessions);
+          case 5:
           case "end":
             return _context2.stop();
         }

@@ -54,7 +54,8 @@ function MyApp() {
 
   const logStuff = async () => {
     const localStore = await chrome.storage.local.get(["blocks"]);
-    console.log('log entries', localStore.blocks);
+    console.log('log blocks', localStore.blocks);
+    console.log('log sessions', localStore.sessions);
   }
 
   const clean = async () => {

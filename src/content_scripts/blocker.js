@@ -1,3 +1,4 @@
+import { getCurrentConfig } from "./lib/config";
 // console.log('in the blocked pages')
 const buttonTexts = [
   "Keep myself distracted",
@@ -37,7 +38,7 @@ const buttonTexts = [
 ]
 
 let isBlockEnabled = true;
-let initialInterval = 2;
+let initialInterval = .12;
 const min = (count) => (count*60000);
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -108,16 +109,22 @@ const observeOverlayDeletion = () => {
 }
 
 const init = async () => {
+  console.log('log entries on init before async');
   const localStore = await chrome.storage.local.get(["blocks"]);
   console.log('log entries on init', localStore.blocks);
   // get config
+  const currentConfig = await getCurrentConfig();
   // match config / get applicable entry
   // start recording entry
   // apply the rule
-  // change the rule ?@
+  console.log('krasry logggg ', currentConfig)
+  if(currentConfig && currentConfig?.length > 0) {
+    console.log('krasry logggg ', currentConfig)
+  }
+  // change the rule @?
 }
 
 
 showBlockerOverlay();
 observeOverlayDeletion();
-init();
+// init();

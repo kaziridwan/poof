@@ -5,12 +5,12 @@ const TerserPlugin = require("terser-webpack-plugin"); // added to remove buildm
 const isProduction = false;
 
 module.exports = function(_env, argv) {
-  // const isProduction = argv.mode === "production";
+  const isProduction = argv.mode === "production";
   const isDevelopment = !isProduction;
 
   return  [{
-    // mode: 'production',
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
+    // mode: 'development',
     devtool: 'cheap-module-source-map',
     entry : {
       'src/pages/options/index.build' : './src/pages/options/index.js',

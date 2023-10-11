@@ -15,3 +15,5 @@ chrome.action.onClicked.addListener(async (tab) => {
     });
   }
 })
+
+// record sessions
