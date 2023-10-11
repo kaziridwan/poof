@@ -19,6 +19,8 @@ It mainly does site blocking, but much in depth, including features like
 
 A seamless way to enhance screentime across all devices.
 
+# Development workflow
+
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
 ## Getting Started
